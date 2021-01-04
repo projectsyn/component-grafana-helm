@@ -1,0 +1,3 @@
+parameters:
+  grafana:
+    namespace: syn-grafana
