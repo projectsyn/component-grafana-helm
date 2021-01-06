@@ -4,7 +4,7 @@ parameters:
       - type: helm
         source: https://grafana.github.io/helm-charts
         chart_name: grafana
-        version: ${grafana-helm:charts:grafana}
+        version: ${grafana_helm:charts:grafana}
         output_path: dependencies/grafana/helmcharts/grafana
     compile:
       - input_paths:
@@ -18,7 +18,7 @@ parameters:
       - input_type: helm
         input_paths:
           - grafana-helm/helmcharts/grafana
-        helm_values: ${grafana-helm:helm_values}
+        helm_values: ${grafana_helm:helm_values}
         helm_params:
-          namespace: ${grafana-helm:namespace}
+          namespace: ${grafana_helm:namespace}
         output_path: grafana-helm/01_helmchart
