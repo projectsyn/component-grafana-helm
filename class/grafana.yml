@@ -1,5 +1,11 @@
 parameters:
   kapitan:
+    dependencies:
+      - type: helm
+        source: https://grafana.github.io/helm-charts
+        chart_name: grafana
+        version: ${grafana:charts:grafana}
+        output_path: dependencies/grafana/helmcharts/grafana
     compile:
       - input_paths:
           - grafana/component/app.jsonnet
@@ -9,4 +15,24 @@ parameters:
           - grafana/component/main.jsonnet
         input_type: jsonnet
         output_path: grafana/
-
+      - input_type: helm
+        input_paths:
+          - grafana/helmcharts/grafana
+        helm_values:
+          image:
+            repository: ${grafana:images:grafana:image}
+            tag: ${grafana:images:grafana:tag}
+            pullPolicy: ${grafana:images:grafana:pullPolicy}
+          downloadDashboardsImage:
+            repository: ${grafana:images:grafana:downloadDashboardsImage:image}
+            tag: ${grafana:images:grafana:downloadDashboardsImage:tag}
+          serviceMonitor:
+            enabled: ${grafana:images:grafana:serviceMonitor:enabled}
+          ingress:
+            enabled: ${grafana:images:grafana:ingress:enabled}
+            hosts: ${grafana:images:grafana:ingress:hosts}
+            tls: ${grafana:images:grafana:ingress:tls}
+            annotations: ${grafana:images:grafana:ingress:annotations}
+        helm_params:
+          namespace: ${grafana:namespace}
+        output_path: grafana/01_helmchart
