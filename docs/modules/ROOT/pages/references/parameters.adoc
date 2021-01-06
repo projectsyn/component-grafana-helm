@@ -1,6 +1,6 @@
 = Parameters
 
-The parent key for all of the following parameters is `grafana-helm`.
+The parent key for all of the following parameters is `grafana_helm`.
 
 == `namespace`
 
