@@ -4,7 +4,7 @@ parameters:
       - type: helm
         source: https://grafana.github.io/helm-charts
         chart_name: grafana
-        version: ${grafana:charts:grafana}
+        version: ${grafana-helm:charts:grafana}
         output_path: dependencies/grafana/helmcharts/grafana
     compile:
       - input_paths:
@@ -18,21 +18,7 @@ parameters:
       - input_type: helm
         input_paths:
           - grafana-helm/helmcharts/grafana
-        helm_values:
-          image:
-            repository: ${grafana-helm:images:grafana:image}
-            tag: ${grafana-helm:images:grafana:tag}
-            pullPolicy: ${grafana-helm:images:grafana:pullPolicy}
-          downloadDashboardsImage:
-            repository: ${grafana-helm:images:downloadDashboardsImage:image}
-            tag: ${grafana-helm:images:downloadDashboardsImage:tag}
-          serviceMonitor:
-            enabled: ${grafana-helm:serviceMonitor:enabled}
-          ingress:
-            enabled: ${grafana-helm:ingress:enabled}
-            hosts: ${grafana-helm:ingress:hosts}
-            tls: ${grafana-helm:ingress:tls}
-            annotations: ${grafana-helm:ingress:annotations}
+        helm_values: ${grafana-helm:helm_values}
         helm_params:
           namespace: ${grafana-helm:namespace}
         output_path: grafana-helm/01_helmchart
