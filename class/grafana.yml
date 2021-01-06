@@ -24,15 +24,15 @@ parameters:
             tag: ${grafana:images:grafana:tag}
             pullPolicy: ${grafana:images:grafana:pullPolicy}
           downloadDashboardsImage:
-            repository: ${grafana:images:grafana:downloadDashboardsImage:image}
-            tag: ${grafana:images:grafana:downloadDashboardsImage:tag}
+            repository: ${grafana:images:downloadDashboardsImage:image}
+            tag: ${grafana:images:downloadDashboardsImage:tag}
           serviceMonitor:
-            enabled: ${grafana:images:grafana:serviceMonitor:enabled}
+            enabled: ${grafana:serviceMonitor:enabled}
           ingress:
-            enabled: ${grafana:images:grafana:ingress:enabled}
-            hosts: ${grafana:images:grafana:ingress:hosts}
-            tls: ${grafana:images:grafana:ingress:tls}
-            annotations: ${grafana:images:grafana:ingress:annotations}
+            enabled: ${grafana:ingress:enabled}
+            hosts: ${grafana:ingress:hosts}
+            tls: ${grafana:ingress:tls}
+            annotations: ${grafana:ingress:annotations}
         helm_params:
           namespace: ${grafana:namespace}
         output_path: grafana/01_helmchart

@@ -8,16 +8,16 @@ parameters:
         image: grafana/grafana
         tag: ' 7.3.5'
         pullPolicy: IfNotPresent
-        downloadDashboardsImage:
-          image: curlimages/curl
-          tag: 7.73.0
-        serviceMonitor:
-          enabled: true
-        ingress:
-          enabled: false
-          hosts:
-          - chart-example.local
-          tls: []
-          annotations: {}
+      downloadDashboardsImage:
+        image: curlimages/curl
+        tag: 7.73.0
+    serviceMonitor:
+      enabled: true
+    ingress:
+      enabled: false
+      hosts:
+      - chart-example.local
+      tls: []
+      annotations: {}
 
 
