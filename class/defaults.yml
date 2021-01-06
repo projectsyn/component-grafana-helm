@@ -8,3 +8,5 @@ parameters:
         enabled: true
       testFramework:
         enabled: false
+      initChownData:
+        enabled: false
