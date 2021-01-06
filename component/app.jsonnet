@@ -6,5 +6,5 @@ local argocd = import 'lib/argocd.libjsonnet';
 local app = argocd.App('grafana-helm', params.namespace);
 
 {
-  grafana-helm: app,
+  'grafana-helm': app,
 }
