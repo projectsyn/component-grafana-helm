@@ -22,4 +22,4 @@ parameters:
         helm_params:
           release_name: ${_instance}
           namespace: ${grafana_helm:namespace}
-        output_path: grafana_helm/01_helmchart
+        output_path: grafana-helm/01_helmchart

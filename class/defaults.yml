@@ -6,3 +6,5 @@ parameters:
     helm_values:
       serviceMonitor:
         enabled: true
+      testFramework:
+        enabled: false
