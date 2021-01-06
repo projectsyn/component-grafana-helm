@@ -1,5 +1,5 @@
-name: grafana
-title: grafana
+name: grafana-helm
+title: grafana-helm
 version: master
 start_page: ROOT:index.adoc
 nav:

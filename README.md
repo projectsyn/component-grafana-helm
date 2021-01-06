@@ -1,6 +1,6 @@
-# Commodore Component: grafana
+# Commodore Component: grafana-helm
 
-This is a [Commodore][commodore] Component for grafana.
+This is a [Commodore][commodore] Component for grafana based on https://github.com/grafana/helm-charts/tree/main/charts/grafana.
 
 This repository is part of Project Syn.
 For documentation on Project Syn and this component, see https://syn.tools.

@@ -1,5 +1,5 @@
-= grafana
+= grafana-helm
 
-grafana is a Commodore component to manage grafana.
+grafana-helm is a Commodore component to manage grafana.
 
 See the xref:references/parameters.adoc[parameters] reference for further details.
