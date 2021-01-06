@@ -16,12 +16,10 @@ parameters:
     ingress:
       enabled: false
       hosts:
-      - chart-example.local
+        - chart-example.local
       tls: []
       annotations: {}
     persistence:
       enabled: false
       size: 10Gi
       storageClassName: ""
-
-
