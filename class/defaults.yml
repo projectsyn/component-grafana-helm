@@ -19,5 +19,9 @@ parameters:
       - chart-example.local
       tls: []
       annotations: {}
+    persistence:
+      enabled: false
+      size: 10Gi
+      storageClassName: ""
 
 

@@ -26,13 +26,17 @@ parameters:
           downloadDashboardsImage:
             repository: ${grafana:images:downloadDashboardsImage:image}
             tag: ${grafana:images:downloadDashboardsImage:tag}
-          serviceMonitor:
-            enabled: ${grafana:serviceMonitor:enabled}
           ingress:
             enabled: ${grafana:ingress:enabled}
             hosts: ${grafana:ingress:hosts}
             tls: ${grafana:ingress:tls}
             annotations: ${grafana:ingress:annotations}
+          persistence:
+            enabled: ${grafana:persistence:enabled}
+            size: ${grafana:persistence:size}
+            storageClassName: ${grafana:persistence:storageClassName}
+          serviceMonitor:
+            enabled: ${grafana:serviceMonitor:enabled}
         helm_params:
           namespace: ${grafana:namespace}
         output_path: grafana/01_helmchart
