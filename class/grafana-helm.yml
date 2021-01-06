@@ -5,7 +5,7 @@ parameters:
         source: https://grafana.github.io/helm-charts
         chart_name: grafana
         version: ${grafana_helm:charts:grafana}
-        output_path: dependencies/grafana/helmcharts/grafana
+        output_path: dependencies/grafana-helm/helmcharts/grafana
     compile:
       - input_paths:
           - grafana-helm/component/app.jsonnet
@@ -14,11 +14,12 @@ parameters:
       - input_paths:
           - grafana-helm/component/main.jsonnet
         input_type: jsonnet
-        output_path: grafana/
+        output_path: grafana-helm/
       - input_type: helm
         input_paths:
           - grafana-helm/helmcharts/grafana
         helm_values: ${grafana_helm:helm_values}
         helm_params:
+          release_name: ${_instance}
           namespace: ${grafana_helm:namespace}
-        output_path: grafana-helm/01_helmchart
+        output_path: grafana_helm/01_helmchart
