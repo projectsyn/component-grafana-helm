@@ -1,10 +1,10 @@
 local kap = import 'lib/kapitan.libjsonnet';
 local inv = kap.inventory();
-local params = inv.parameters.grafana;
+local params = inv.parameters.grafana-helm;
 local argocd = import 'lib/argocd.libjsonnet';
 
-local app = argocd.App('grafana', params.namespace);
+local app = argocd.App('grafana-helm', params.namespace);
 
 {
-  grafana: app,
+  grafana-helm: app,
 }

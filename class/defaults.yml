@@ -1,5 +1,5 @@
 parameters:
-  grafana:
+  grafana-helm:
     namespace: syn-grafana
     charts:
       grafana: 6.1.16
