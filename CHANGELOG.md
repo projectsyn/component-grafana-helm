@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-  Allow to provision datasource and dashboards from [@splattner](https://github.com/splattner) [(#5)]
+  Allow to provision datasource and dashboards from [@splattner](https://github.com/splattner) ([#5])
 
 [Unreleased]: https://github.com/projectsyn/component-grafana/compare/v0.1.0...HEAD
 
