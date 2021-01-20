@@ -3,6 +3,8 @@ parameters:
     namespace: syn-grafana
     charts:
       grafana: 6.1.16
+    dashboards: {}
+    datasources: {}
     helm_values:
       serviceMonitor:
         enabled: true
