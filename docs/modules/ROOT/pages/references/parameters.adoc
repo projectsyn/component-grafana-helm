@@ -10,10 +10,51 @@ default:: `syn-grafana`
 
 The namespace in which to deploy this component.
 
+== `dashboards`
+
+[horizontal]
+type:: object
+default:: `{}`
+
+An object with dashboards to provision.
+
+== `datasources`
+
+[horizontal]
+type:: object
+default:: `{}`
+
+An object with datasources to provision.
 
 == Example
 
 [source,yaml]
 ----
 namespace: example-namespace
+dashboards:
+  dashboard-crossplane: |-
+    {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      [...]
+datasources:
+    'datasource.yaml': |-
+        apiVersion: 1
+        datasources:
+        - name: Prometheus
+            type: prometheus
+            url: http://prometheus-svc
+            access: proxy
+            isDefault: true
 ----
