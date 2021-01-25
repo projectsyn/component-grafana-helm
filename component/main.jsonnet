@@ -8,3 +8,4 @@ local params = inv.parameters.grafana_helm;
   '00_namespace': kube.Namespace(params.namespace),
 } + (import 'grafana-dashboards.libsonnet')
 + (import 'grafana-datasources.libsonnet')
++ (import 'grafana-extraConfigMap.libsonnet')

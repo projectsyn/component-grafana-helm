@@ -5,6 +5,7 @@ parameters:
       grafana: 6.1.16
     dashboards: {}
     datasources: {}
+    extraConfigMap: {}
     helm_values:
       serviceMonitor:
         enabled: true
