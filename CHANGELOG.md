@@ -12,4 +12,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Unreleased]: https://github.com/projectsyn/component-grafana/compare/v0.1.0...HEAD
 
 [#5]: https://github.com/projectsyn/component-grafana-helm/pull/5
-[#6]: https://github.com/projectsyn/component-grafana-helm/pull/5
+[#6]: https://github.com/projectsyn/component-grafana-helm/pull/6
