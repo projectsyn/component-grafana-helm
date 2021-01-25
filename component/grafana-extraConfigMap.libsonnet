@@ -7,10 +7,10 @@ local instance = inv.parameters._instance;
 
 
 {
-  ['grafana-extraConfigMap']: kube.ConfigMap('grafana-extraConfigMap') {
+  'grafana-extraConfigMap': kube.ConfigMap('grafana-extraConfigMap') {
     metadata+: {
       namespace: params.namespace,
     },
-    data+: params.extraConfigMap
-  }
+    data+: params.extraConfigMap,
+  },
 }
