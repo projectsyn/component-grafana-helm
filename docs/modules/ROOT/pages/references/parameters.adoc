@@ -66,5 +66,5 @@ datasources:
             access: proxy
             isDefault: true
 extraConfigMap:
-  'nginx.conf': "# My NGINC config File"
+  'nginx.conf': "# My NGINX config File"
 ----
