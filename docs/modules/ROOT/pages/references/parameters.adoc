@@ -26,6 +26,14 @@ default:: `{}`
 
 An object with datasources to provision.
 
+== `extraConfigMap`
+
+[horizontal]
+type:: object
+default:: `{}`
+
+An object with extra ConfgiMaps to be deployed
+
 == Example
 
 [source,yaml]
@@ -57,4 +65,6 @@ datasources:
             url: http://prometheus-svc
             access: proxy
             isDefault: true
+extraConfigMap:
+  'nginx.conf': "# My NGINC config File"
 ----
