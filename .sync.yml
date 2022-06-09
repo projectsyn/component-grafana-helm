@@ -1,6 +1,2 @@
 :global:
   componentName: grafana-helm
-
-docs/antora.yml:
-  name: grafana-helm
-  title: grafana-helm
