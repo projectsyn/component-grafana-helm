@@ -6,5 +6,5 @@ local argocd = import 'lib/argocd.libjsonnet';
 local instance = inv.parameters._instance;
 
 {
-  [instance]: argocd.App(instance, params.namespace.name),
+  [instance]: argocd.App(instance, params.namespace),
 }
