@@ -1,6 +1,3 @@
-;
-; File managed by ModuleSync - Do Not Edit
-;
 ; This file is for unifying the coding style for different editors and IDEs.
 ; More information at https://editorconfig.org
 
@@ -27,3 +24,7 @@ insert_final_newline = false
 
 [Makefile]
 indent_style = tab
+
+# Don't check for trailing newlines in golden tests output
+[tests/golden/**]
+insert_final_newline = unset
