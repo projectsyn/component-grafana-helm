@@ -1,5 +1,8 @@
 parameters:
   grafana_helm:
+    =_metadata:
+      multi_instance: true
+
     namespace: syn-grafana
     charts:
       grafana: 6.1.16
