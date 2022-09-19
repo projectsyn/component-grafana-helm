@@ -1,0 +1,10 @@
+apiVersion: v1
+data: {}
+kind: ConfigMap
+metadata:
+  annotations: {}
+  labels:
+    grafana_datasource: '1'
+    name: grafana-helm-datasources
+  name: grafana-helm-datasources
+  namespace: syn-grafana

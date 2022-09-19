@@ -1,2 +1,4 @@
 parameters:
-  grafana_helm: {}
+  grafana_helm:
+    helm_values:
+      adminPassword: strongpassword
