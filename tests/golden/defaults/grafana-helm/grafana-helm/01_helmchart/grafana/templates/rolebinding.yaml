@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/instance: grafana-helm
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/version: 7.3.5
+    helm.sh/chart: grafana-6.1.16
+  name: grafana-helm
+  namespace: syn-grafana
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: grafana-helm
+subjects:
+  - kind: ServiceAccount
+    name: grafana-helm
+    namespace: syn-grafana
