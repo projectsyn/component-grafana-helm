@@ -4,6 +4,10 @@ parameters:
       multi_instance: true
 
     namespace: syn-grafana
+    createNamespace: true
+    namespaceLabels: {}
+    namespaceAnnotations: {}
+
     charts:
       grafana: 6.1.16
     dashboards: {}

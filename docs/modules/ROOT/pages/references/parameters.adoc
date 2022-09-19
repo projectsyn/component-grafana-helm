@@ -10,6 +10,30 @@ default:: `syn-grafana`
 
 The namespace in which to deploy this component.
 
+== `createNamespace`
+
+[horizontal]
+type:: boolean
+default:: `true`
+
+Whether to create the namespace specified in `namespace`.
+
+== `namespaceLabels`
+
+[horizontal]
+type:: object
+default:: `{}`
+
+Additional labels to add to the namespace specified in `namespace`.
+
+== `namespaceAnnotations`
+
+[horizontal]
+type:: object
+default:: `{}`
+
+Additional annotations to add to the namespace specified in `namespace`.
+
 == `dashboards`
 
 [horizontal]
