@@ -8,6 +8,8 @@ parameters:
     namespaceLabels: {}
     namespaceAnnotations: {}
 
+    secrets: {}
+
     charts:
       grafana: 6.38.5
     dashboards: {}
