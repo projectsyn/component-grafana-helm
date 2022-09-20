@@ -9,7 +9,7 @@ parameters:
     namespaceAnnotations: {}
 
     charts:
-      grafana: 6.1.16
+      grafana: 6.38.5
     dashboards: {}
     datasources: {}
     extraConfigMap: {}
