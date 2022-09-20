@@ -34,6 +34,31 @@ default:: `{}`
 
 Additional annotations to add to the namespace specified in `namespace`.
 
+== `secrets`
+
+[horizontal]
+type:: object
+default:: `{}`
+example::
++
+[source,yaml]
+----
+secrets:
+  grafana-admin-user:
+    stringData:
+      admin-user: admin
+      admin-password: password
+
+helm_values:
+  admin:
+    existingSecret: grafana-admin-user
+----
+
+A dictionary holding secrets for use with Grafana.
+Each key in the dictionary is used as the name of a secret.
+The value of the key is merged directly into an empty Kubernetes `Secret` resource.
+By default, secrets are created in the namespace in which Grafana is deployed.
+
 == `dashboards`
 
 [horizontal]
