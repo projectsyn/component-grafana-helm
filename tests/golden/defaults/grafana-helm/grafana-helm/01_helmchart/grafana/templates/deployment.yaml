@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: grafana
     app.kubernetes.io/version: 9.1.5
-    helm.sh/chart: grafana-6.38.5
+    helm.sh/chart: grafana-6.38.6
   name: grafana-helm
   namespace: syn-grafana
 spec:
@@ -21,7 +21,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: bd37d8447d551e0157c45a54b12ad133315f56fb2d85631cb032810faaac6450
+        checksum/config: 01275c889a713524e39b0922fa4b399e3bafa1773d550609a4baa59123e08afc
         checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
       labels:
