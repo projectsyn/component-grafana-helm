@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/instance: grafana-helm
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: grafana
-    app.kubernetes.io/version: 9.1.5
-    helm.sh/chart: grafana-6.38.6
+    app.kubernetes.io/version: 9.4.3
+    helm.sh/chart: grafana-6.52.4
   name: grafana-helm
   namespace: syn-grafana
 spec:
@@ -21,7 +21,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 01275c889a713524e39b0922fa4b399e3bafa1773d550609a4baa59123e08afc
+        checksum/config: 6ee645565a60b30464c1c3eb0a7337febb4e2a1809abce615a66cd3ad3d59d5b
         checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
       labels:
@@ -31,6 +31,10 @@ spec:
       automountServiceAccountToken: true
       containers:
         - env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: GF_SECURITY_ADMIN_USER
               valueFrom:
                 secretKeyRef:
@@ -49,7 +53,7 @@ spec:
               value: /var/lib/grafana/plugins
             - name: GF_PATHS_PROVISIONING
               value: /etc/grafana/provisioning
-          image: grafana/grafana:9.1.5
+          image: grafana/grafana:9.4.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -63,6 +67,12 @@ spec:
             - containerPort: 3000
               name: grafana
               protocol: TCP
+            - containerPort: 9094
+              name: gossip-tcp
+              protocol: TCP
+            - containerPort: 9094
+              name: gossip-udp
+              protocol: UDP
           readinessProbe:
             httpGet:
               path: /api/health
