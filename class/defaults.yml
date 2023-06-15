@@ -11,7 +11,7 @@ parameters:
     secrets: {}
 
     charts:
-      grafana: 6.54.0
+      grafana: 6.57.2
     dashboards: {}
     datasources: {}
     extraConfigMap: {}
