@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/instance: grafana-helm
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: grafana
-    app.kubernetes.io/version: 9.4.7
-    helm.sh/chart: grafana-6.54.0
+    app.kubernetes.io/version: 9.5.3
+    helm.sh/chart: grafana-6.57.2
   name: grafana-helm
   namespace: syn-grafana
 spec:
@@ -21,9 +21,10 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 1067be9e7c7883d87d959aec4f8560f45c9b58c259371aba2f93d6c707490a00
+        checksum/config: 3cf37536fecf70a21e9a58c1a854a5329a0a08859327542211dae5ae2f651043
         checksum/dashboards-json-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
         checksum/sc-dashboard-provider-config: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        kubectl.kubernetes.io/default-container: grafana
       labels:
         app.kubernetes.io/instance: grafana-helm
         app.kubernetes.io/name: grafana
@@ -53,7 +54,7 @@ spec:
               value: /var/lib/grafana/plugins
             - name: GF_PATHS_PROVISIONING
               value: /etc/grafana/provisioning
-          image: docker.io/grafana/grafana:9.4.7
+          image: docker.io/grafana/grafana:9.5.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -78,6 +79,7 @@ spec:
               path: /api/health
               port: 3000
           securityContext:
+            allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
