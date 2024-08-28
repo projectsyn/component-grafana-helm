@@ -11,7 +11,7 @@ parameters:
     secrets: {}
 
     charts:
-      grafana: 8.4.8
+      grafana: 8.4.9
     dashboards: {}
     datasources: {}
     extraConfigMap: {}
