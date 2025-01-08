@@ -2,6 +2,7 @@ parameters:
   grafana_helm:
     =_metadata:
       multi_instance: true
+      multi_tenant: true
 
     namespace: syn-grafana
     createNamespace: true
