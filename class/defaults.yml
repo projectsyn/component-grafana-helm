@@ -12,7 +12,7 @@ parameters:
     secrets: {}
 
     charts:
-      grafana: 9.2.7
+      grafana: 9.2.8
     dashboards: {}
     datasources: {}
     extraConfigMap: {}
