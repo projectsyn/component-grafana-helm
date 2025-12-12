@@ -7,7 +7,7 @@
       "name": "grafana-helm",
       "slug": "grafana-helm",
       "parameter_key": "grafana_helm",
-      "test_cases": "defaults",
+      "test_cases": "defaults openshift",
       "add_lib": "n",
       "add_pp": "n",
       "add_golden": "y",
