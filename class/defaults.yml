@@ -23,3 +23,5 @@ parameters:
         enabled: false
       initChownData:
         enabled: false
+      deploymentStrategy:
+        type: Recreate
