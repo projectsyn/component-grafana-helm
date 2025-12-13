@@ -21,7 +21,7 @@ local secrets = com.generateResources(
       annotations+: params.namespaceAnnotations,
     },
   },
-  '10_secrets': secrets,
-} + (import 'grafana-dashboards.libsonnet')
-+ (import 'grafana-datasources.libsonnet')
-+ (import 'grafana-extraConfigMap.libsonnet')
+  '20_extra_secrets': secrets,
+} + (import 'extra_dashboards.libsonnet')
++ (import 'extra_datasources.libsonnet')
++ (import 'extra_configmap.libsonnet')
