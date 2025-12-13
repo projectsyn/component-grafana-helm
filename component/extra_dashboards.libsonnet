@@ -5,12 +5,17 @@ local inv = kap.inventory();
 local params = inv.parameters.grafana_helm;
 local instance = inv.parameters._instance;
 
-
 {
-  'grafana-extraconfigmap': kube.ConfigMap('grafana-extraconfigmap') {
+  ['20_extra_dashboards/' + dashboard]: kube.ConfigMap(dashboard) {
     metadata+: {
       namespace: params.namespace,
+      labels+: {
+        grafana_dashboard: '1',
+      },
     },
-    data+: params.extraConfigMap,
-  },
+    data+: {
+      [dashboard + '.json']: params.dashboards[dashboard],
+    },
+  }
+  for dashboard in std.objectFields(params.dashboards)
 }

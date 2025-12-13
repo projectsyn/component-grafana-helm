@@ -5,18 +5,17 @@ local inv = kap.inventory();
 local params = inv.parameters.grafana_helm;
 local instance = inv.parameters._instance;
 
-
 {
-  ['grafana-resources/dashboards/' + dashboard]: kube.ConfigMap('dashboard-' + dashboard) {
+  [if std.length(params.datasources) > 0 then '20_extra_datasources']: kube.ConfigMap(instance + '-datasources') {
     metadata+: {
       namespace: params.namespace,
       labels+: {
-        grafana_dashboard: '1',
+        grafana_datasource: '1',
       },
     },
     data+: {
-      [dashboard + '.json']: params.dashboards[dashboard],
+      [datasource]: params.datasources[datasource]
+      for datasource in std.objectFields(params.datasources)
     },
-  }
-  for dashboard in std.objectFields(params.dashboards)
+  },
 }

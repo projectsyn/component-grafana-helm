@@ -1,9 +1,0 @@
-apiVersion: v1
-data: {}
-kind: ConfigMap
-metadata:
-  annotations: {}
-  labels:
-    name: grafana-extraconfigmap
-  name: grafana-extraconfigmap
-  namespace: syn-grafana
