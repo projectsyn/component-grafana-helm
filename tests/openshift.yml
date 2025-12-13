@@ -1,3 +1,35 @@
-# Overwrite parameters here
+applications:
+  - openshift4-logging
 
-# parameters: {...}
+parameters:
+  facts:
+    distribution: openshift4
+
+  openshift:
+    appsDomain: apps.example.com
+    baseDomain: example.com
+
+  grafana_helm:
+    openshiftIntegration:
+      enabled: true
+      ingress:
+        urlPrefix: my-grafana
+      metrics:
+        enabled: true
+      logsApps:
+        enabled: true
+      logsInfra:
+        enabled: true
+      logsAudit:
+        enabled: true
+
+    helm_values:
+      sidecar:
+        dashboards:
+          enabled: true
+          searchNamespace:
+            - syn-airlock-microgateway
+            - syn-topolvm
+        datasources:
+          enabled: true
+          searchNamespace: ALL

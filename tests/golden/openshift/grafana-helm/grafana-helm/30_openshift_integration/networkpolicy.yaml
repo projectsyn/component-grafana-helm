@@ -1,5 +1,5 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
 metadata:
   annotations:
     syn.tools/source: https://github.com/projectsyn/component-grafana-helm.git
@@ -9,8 +9,14 @@ metadata:
     app.kubernetes.io/managed-by: commodore
     app.kubernetes.io/name: grafana
     app.kubernetes.io/part-of: syn
-    app.kubernetes.io/version: 12.4.0
-    helm.sh/chart: grafana-11.2.3
-  name: grafana-helm
-  namespace: syn-grafana
-rules: []
+  name: allow-from-syn-grafana
+  namespace: openshift-logging
+spec:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: syn-grafana
+  podSelector: {}
+  policyTypes:
+    - Ingress

@@ -16,6 +16,30 @@ parameters:
     dashboards: {}
     datasources: {}
     extraConfigMap: {}
+
+    openshiftIntegration:
+      enabled: false
+      auth:
+        adminUser: 'admin'
+        adminPassword: '?{vaultkv:${cluster:tenant}/${cluster:name}/${_instance}/admin_password}'
+        scopes: 'user:info user:check-access user:list-projects'
+        roleAttributePath: "contains(groups[*], 'openshiftroot') && 'GrafanaAdmin' || 'Editor'"
+      ingress:
+        urlPrefix: ${_instance}
+      # OpenShift Datasources
+      metrics:
+        enabled: true
+        name: Prometheus
+      logsApps:
+        enabled: true
+        name: OpenShift Logging (Application)
+      logsInfra:
+        enabled: true
+        name: OpenShift Logging (Infrastructure)
+      logsAudit:
+        enabled: false
+        name: OpenShift Logging (Audit)
+
     helm_values:
       serviceMonitor:
         enabled: true

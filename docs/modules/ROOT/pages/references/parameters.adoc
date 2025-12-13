@@ -2,6 +2,7 @@
 
 The parent key for all of the following parameters is `grafana_helm`.
 
+
 == `namespace`
 
 [horizontal]
@@ -9,6 +10,7 @@ type:: string
 default:: `syn-grafana`
 
 The namespace in which to deploy this component.
+
 
 == `createNamespace`
 
@@ -18,6 +20,7 @@ default:: `true`
 
 Whether to create the namespace specified in `namespace`.
 
+
 == `namespaceLabels`
 
 [horizontal]
@@ -26,6 +29,7 @@ default:: `{}`
 
 Additional labels to add to the namespace specified in `namespace`.
 
+
 == `namespaceAnnotations`
 
 [horizontal]
@@ -33,6 +37,7 @@ type:: object
 default:: `{}`
 
 Additional annotations to add to the namespace specified in `namespace`.
+
 
 == `secrets`
 
@@ -59,6 +64,7 @@ Each key in the dictionary is used as the name of a secret.
 The value of the key is merged directly into an empty Kubernetes `Secret` resource.
 By default, secrets are created in the namespace in which Grafana is deployed.
 
+
 == `dashboards`
 
 [horizontal]
@@ -66,6 +72,7 @@ type:: object
 default:: `{}`
 
 An object with dashboards to provision.
+
 
 == `datasources`
 
@@ -75,6 +82,7 @@ default:: `{}`
 
 An object with datasources to provision.
 
+
 == `extraConfigMap`
 
 [horizontal]
@@ -82,6 +90,150 @@ type:: object
 default:: `{}`
 
 An object with extra ConfgiMaps to be deployed
+
+
+== `openshiftIntegration`
+
+Configuration options for tight integration in OpenShift.
+
+=== `openshiftIntegration.enabled`
+
+[horizontal]
+type:: boolean
+default:: `false`
+
+Enables configuration for OpenShift integration.
+
+[NOTE]
+====
+Enabling OpenShift integration will configure various Helm values and create the neccessary resources for Grafana to authenticate agains OpenShift and have datasources for the OpenShift observation stack.
+====
+
+=== `openshiftIntegration.auth`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  auth:
+    adminUser: 'admin'
+    adminPassword: '?{vaultkv:${cluster:tenant}/${cluster:name}/${_instance}/admin_password}'
+    scopes: 'user:info user:check-access user:list-projects'
+    roleAttributePath: "contains(groups[*], 'openshiftroot') && 'GrafanaAdmin' || 'Editor'"
+----
+
+=== `openshiftIntegration.ingress`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  ingress:
+    urlPrefix: ${_instance}
+----
+
+The URL the Grafana instance will be published under has the form `<urlPrefix>.apps.<clusterDomain>`.
+
+=== `openshiftIntegration.metrics`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  metrics:
+    enabled: true <1>
+    name: Prometheus <2>
+----
+<1> Enable this datasource.
+<2> Name of the datasource.
+
+Integrating OpenShift metrics.
+
+=== `openshiftIntegration.logsApps`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  logsApps:
+    enabled: true <1>
+    name: OpenShift Logging (Application) <2>
+----
+<1> Enable this datasource.
+<2> Name of the datasource.
+
+Inegrate OpenShift Application logs.
+
+=== `openshiftIntegration.logsInfra`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  logsInfra:
+    enabled: true <1>
+    name: OpenShift Logging (Infrastructure) <2>
+----
+<1> Enable this datasource.
+<2> Name of the datasource.
+
+Integrate OpenShift Infrastructure logs.
+
+=== `openshiftIntegration.logsAudit`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  logsAudit:
+    enabled: false <1>
+    name: OpenShift Logging (Audit) <2>
+----
+<1> Enable this datasource.
+<2> Name of the datasource.
+
+Integrate OpenShift Audit logs.
+
+
+== `helm_values`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+helm_values:
+  serviceMonitor:
+    enabled: true
+  testFramework:
+    enabled: false
+  initChownData:
+    enabled: false
+  deploymentStrategy:
+    type: Recreate
+----
+
+Values passed to Helm.
+
 
 == Example
 

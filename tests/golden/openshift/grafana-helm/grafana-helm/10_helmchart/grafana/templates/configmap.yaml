@@ -1,0 +1,109 @@
+apiVersion: v1
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      editable: false
+      isDefault: true
+      jsonData:
+        httpHeaderName1: Authorization
+        tlsAuthWithCACert: true
+      name: Prometheus
+      secureJsonData:
+        httpHeaderValue1: Bearer $SA_BEARER_TOKEN
+        tlsCACert: $SA_SERVICE_CERT
+      type: prometheus
+      url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
+    - access: proxy
+      editable: false
+      jsonData:
+        oauthPassThru: true
+        timeout: 600s
+      name: OpenShift Logging (Application)
+      type: loki
+      url: https://loki-openshift-logging.apps.example.com/api/logs/v1/application/
+    - access: proxy
+      editable: false
+      jsonData:
+        oauthPassThru: true
+        timeout: 600s
+      name: OpenShift Logging (Infrastructure)
+      type: loki
+      url: https://loki-openshift-logging.apps.example.com/api/logs/v1/infrastructure/
+    - access: proxy
+      editable: false
+      jsonData:
+        oauthPassThru: true
+        timeout: 600s
+      name: OpenShift Logging (Audit)
+      type: loki
+      url: https://loki-openshift-logging.apps.example.com/api/logs/v1/audit/
+  grafana.ini: |
+    [analytics]
+    check_for_updates = false
+    reporting_enabled = false
+    [auth]
+    disable_login_form = false
+    disable_signout_menu = true
+    login_maximum_inactive_lifetime_duration = 6h
+    login_maximum_lifetime_duration = 24h
+    oauth_allow_insecure_email_lookup = true
+    [auth.basic]
+    enabled = false
+    [auth.generic_oauth]
+    allow_assign_grafana_admin = true
+    allow_sign_up = true
+    api_url = https://kubernetes.default.svc/apis/user.openshift.io/v1/users/~
+    auth_url = https://oauth-openshift.apps.example.com/oauth/authorize
+    auto_login = true
+    client_id = system:serviceaccount:syn-grafana:grafana-helm
+    client_secret = ${OAUTH_CLIENT_SECRET}
+    email_attribute_path = metadata.name
+    empty_scopes = false
+    enabled = true
+    icon = signin
+    name = OpenShift
+    role_attribute_path = contains(groups[*], 'openshiftroot') && 'GrafanaAdmin' || 'Editor'
+    scopes = user:info user:check-access user:list-projects
+    tls_client_ca = /run/secrets/kubernetes.io/serviceaccount/ca.crt
+    tls_client_cert = /etc/tls/private/tls.crt
+    tls_client_key = /etc/tls/private/tls.key
+    token_url = https://oauth-openshift.apps.example.com/oauth/token
+    use_pkce = true
+    [log]
+    level = warn
+    mode = console
+    [paths]
+    data = /var/lib/grafana/
+    logs = /var/log/grafana
+    plugins = /var/lib/grafana/plugins
+    provisioning = /etc/grafana/provisioning
+    [security]
+    admin_user = admin
+    cookie_secure = true
+    [server]
+    cert_file = /etc/tls/private/tls.crt
+    cert_key = /etc/tls/private/tls.key
+    domain = ''
+    protocol = https
+    root_url = https://grafana.apps.example.com
+    [unified_storage]
+    index_path = /var/lib/grafana-search/bleve
+    [users]
+    auto_assign_org = 1
+    auto_assign_org_role = Editor
+kind: ConfigMap
+metadata:
+  annotations:
+    syn.tools/source: https://github.com/projectsyn/component-grafana-helm.git
+  labels:
+    app.kubernetes.io/component: grafana-helm
+    app.kubernetes.io/instance: grafana-helm
+    app.kubernetes.io/managed-by: commodore
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/part-of: syn
+    app.kubernetes.io/version: 12.4.0
+    helm.sh/chart: grafana-11.2.3
+  name: grafana-helm
+  namespace: syn-grafana

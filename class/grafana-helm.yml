@@ -5,7 +5,7 @@ parameters:
         source: https://grafana-community.github.io/helm-charts
         chart_name: grafana
         version: ${grafana_helm:charts:grafana}
-        output_path: dependencies/grafana-helm/helmcharts/grafana/${grafana_helm:charts:grafana}
+        output_path: ${_base_directory}/helmcharts/grafana/${grafana_helm:charts:grafana}
     compile:
       - input_paths:
           - ${_base_directory}/component/app.jsonnet
@@ -15,11 +15,18 @@ parameters:
           - grafana-helm/component/main.jsonnet
         input_type: jsonnet
         output_path: ${_instance}/
+      - input_paths:
+          - ${_base_directory}/component/helm.jsonnet
+        input_type: jsonnet
+        output_path: ${_base_directory}/helmcharts/grafana/${grafana_helm:charts:grafana}/
       - input_type: helm
         input_paths:
-          - grafana-helm/helmcharts/grafana/${grafana_helm:charts:grafana}
-        helm_values: ${grafana_helm:helm_values}
+          - dependencies/${_instance}/helmcharts/grafana/${grafana_helm:charts:grafana}/
+        helm_values_files:
+          - ${_base_directory}/helmcharts/grafana/${grafana_helm:charts:grafana}/${_instance}-common.yaml
+          - ${_base_directory}/helmcharts/grafana/${grafana_helm:charts:grafana}/${_instance}-openshift.yaml
+          - ${_base_directory}/helmcharts/grafana/${grafana_helm:charts:grafana}/${_instance}-overrides.yaml
         helm_params:
-          release_name: ${_instance}
+          name: ${_instance}
           namespace: ${grafana_helm:namespace}
         output_path: ${_instance}/10_helmchart
