@@ -2,7 +2,7 @@ parameters:
   kapitan:
     dependencies:
       - type: helm
-        source: https://grafana.github.io/helm-charts
+        source: https://grafana-community.github.io/helm-charts
         chart_name: grafana
         version: ${grafana_helm:charts:grafana}
         output_path: dependencies/grafana-helm/helmcharts/grafana/${grafana_helm:charts:grafana}
