@@ -8,7 +8,7 @@ parameters:
         output_path: dependencies/grafana-helm/helmcharts/grafana/${grafana_helm:charts:grafana}
     compile:
       - input_paths:
-          - grafana-helm/component/app.jsonnet
+          - ${_base_directory}/component/app.jsonnet
         input_type: jsonnet
         output_path: .
       - input_paths:

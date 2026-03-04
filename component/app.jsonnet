@@ -4,11 +4,10 @@ local params = inv.parameters.grafana_helm;
 local argocd = import 'lib/argocd.libjsonnet';
 
 local instance = inv.parameters._instance;
-
-local app = argocd.App(instance, params.namespace);
+local app = argocd.App(instance, params.namespace, secrets=true, base='grafana_helm');
 
 local appPath =
-  local project = std.get(std.get(app, 'spec', {}), 'project', 'syn');
+  local project = std.get(app, 'spec', { project: 'syn' }).project;
   if project == 'syn' then 'apps' else 'apps-%s' % project;
 
 {
