@@ -12,7 +12,20 @@ parameters:
     secrets: {}
 
     charts:
-      grafana: 11.2.3
+      grafana:
+        source: https://grafana-community.github.io/helm-charts
+        version: 11.2.3
+
+    images:
+      grafana:
+        registry: docker.io
+        repository: grafana/grafana
+        tag: 12.4.0
+      sidecar:
+        registry: quay.io
+        repository: kiwigrid/k8s-sidecar
+        tag: 2.5.0
+
     dashboards: {}
     datasources: {}
     extraConfigMap: {}
