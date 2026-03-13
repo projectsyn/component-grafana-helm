@@ -9,6 +9,18 @@ local params = inv.parameters.grafana_helm;
 local common = {
   extraLabels: utils.metadata.labels,
   annotations: utils.metadata.annotations,
+  image: {
+    registry: params.images.grafana.registry,
+    repository: params.images.grafana.repository,
+    tag: params.images.grafana.tag,
+  },
+  sidecar: {
+    image: {
+      registry: params.images.sidecar.registry,
+      repository: params.images.sidecar.repository,
+      tag: params.images.sidecar.tag,
+    },
+  },
 };
 
 local openshift = if utils.isOpenshift && utils.openshiftIntegration then {

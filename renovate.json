@@ -37,6 +37,10 @@
         "automerge",
         "bump:patch"
       ]
+    },
+    {
+      "matchPackageNames": ["grafana", "docker.io/grafana/grafana"],
+      "groupName": "dependency Grafana"
     }
   ]
 }

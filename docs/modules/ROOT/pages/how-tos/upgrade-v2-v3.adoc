@@ -1,0 +1,32 @@
+= Upgrade `component-grafana-helm` from `v2.x` to `v3.x`
+
+Version 3.x changes the way the Helm chart is configured.
+
+[NOTE]
+====
+If you have *not* configured a Helm chart version manually, you do not need to change anything.
+====
+
+== Helm chart definition
+
+=== `v2.x`
+
+[source,yaml]
+----
+parameters:
+  grafana_helm:
+    charts:
+      grafana: 11.2.3
+----
+
+=== `v3.x`
+
+[source,yaml]
+----
+parameters:
+  grafana_helm:
+    charts:
+      grafana:
+        source: https://grafana-community.github.io/helm-charts
+        version: 11.2.3
+----
