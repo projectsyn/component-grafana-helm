@@ -22,6 +22,8 @@ local secrets = com.generateResources(
     },
   },
   '20_extra_secrets': secrets,
-} + (import 'extra_dashboards.libsonnet')
+}
++ (import 'extra_dashboards.libsonnet')
 + (import 'extra_datasources.libsonnet')
 + (import 'extra_configmap.libsonnet')
++ (import 'openshift_integration.libsonnet')

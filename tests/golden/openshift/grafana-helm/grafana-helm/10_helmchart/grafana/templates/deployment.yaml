@@ -1,0 +1,244 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    syn.tools/source: https://github.com/projectsyn/component-grafana-helm.git
+  labels:
+    app.kubernetes.io/component: grafana-helm
+    app.kubernetes.io/instance: grafana-helm
+    app.kubernetes.io/managed-by: commodore
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/part-of: syn
+    app.kubernetes.io/version: 12.4.0
+    helm.sh/chart: grafana-11.2.3
+  name: grafana-helm
+  namespace: syn-grafana
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: grafana-helm
+      app.kubernetes.io/name: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        checksum/config: 0628bcbd336d0152d37b2ed55fb290f8c5b8c70486be8b93c4692acba467945d
+        checksum/sc-dashboard-provider-config: e70bf6a851099d385178a76de9757bb0bef8299da6d8443602590e44f05fdf24
+        kubectl.kubernetes.io/default-container: grafana
+      labels:
+        app.kubernetes.io/component: grafana-helm
+        app.kubernetes.io/instance: grafana-helm
+        app.kubernetes.io/managed-by: commodore
+        app.kubernetes.io/name: grafana
+        app.kubernetes.io/part-of: syn
+        app.kubernetes.io/version: 12.4.0
+        helm.sh/chart: grafana-11.2.3
+    spec:
+      automountServiceAccountToken: true
+      containers:
+        - env:
+            - name: METHOD
+              value: WATCH
+            - name: LABEL
+              value: grafana_dashboard
+            - name: FOLDER
+              value: /tmp/dashboards
+            - name: RESOURCE
+              value: both
+            - name: NAMESPACE
+              value: syn-airlock-microgateway,syn-topolvm
+            - name: REQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: admin-user
+                  name: grafana-admin-user
+            - name: REQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: admin-password
+                  name: grafana-admin-user
+            - name: REQ_URL
+              value: http://localhost:3000/api/admin/provisioning/dashboards/reload
+            - name: REQ_METHOD
+              value: POST
+          image: quay.io/kiwigrid/k8s-sidecar:2.5.0
+          imagePullPolicy: IfNotPresent
+          name: grafana-sc-dashboard
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - mountPath: /tmp/dashboards
+              name: sc-dashboard-volume
+        - env:
+            - name: METHOD
+              value: WATCH
+            - name: LABEL
+              value: grafana_datasource
+            - name: FOLDER
+              value: /etc/grafana/provisioning/datasources
+            - name: RESOURCE
+              value: both
+            - name: NAMESPACE
+              value: ALL
+            - name: REQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: admin-user
+                  name: grafana-admin-user
+            - name: REQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: admin-password
+                  name: grafana-admin-user
+            - name: REQ_URL
+              value: http://localhost:3000/api/admin/provisioning/datasources/reload
+            - name: REQ_METHOD
+              value: POST
+          image: quay.io/kiwigrid/k8s-sidecar:2.5.0
+          imagePullPolicy: IfNotPresent
+          name: grafana-sc-datasources
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: sc-datasources-volume
+        - env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: admin-user
+                  name: grafana-admin-user
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: admin-password
+                  name: grafana-admin-user
+            - name: GF_PATHS_DATA
+              value: /var/lib/grafana/
+            - name: GF_PATHS_LOGS
+              value: /var/log/grafana
+            - name: GF_PATHS_PLUGINS
+              value: /var/lib/grafana/plugins
+            - name: GF_PATHS_PROVISIONING
+              value: /etc/grafana/provisioning
+            - name: GF_UNIFIED_STORAGE_INDEX_PATH
+              value: /var/lib/grafana-search/bleve
+            - name: OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: token
+                  name: grafana-helm-token
+            - name: SA_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: token
+                  name: grafana-helm-token
+            - name: SA_SERVICE_CERT
+              valueFrom:
+                secretKeyRef:
+                  key: service-ca.crt
+                  name: grafana-helm-token
+          image: docker.io/grafana/grafana:12.4.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /api/health
+              port: grafana
+              scheme: HTTPS
+            initialDelaySeconds: 60
+            timeoutSeconds: 30
+          name: grafana
+          ports:
+            - containerPort: 3000
+              name: grafana
+              protocol: TCP
+            - containerPort: 9094
+              name: gossip-tcp
+              protocol: TCP
+            - containerPort: 9094
+              name: gossip-udp
+              protocol: UDP
+            - containerPort: 6060
+              name: profiling
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: grafana
+              scheme: HTTPS
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - mountPath: /etc/grafana/grafana.ini
+              name: config
+              subPath: grafana.ini
+            - mountPath: /var/lib/grafana
+              name: storage
+            - mountPath: /var/lib/grafana-search
+              name: search
+            - mountPath: /etc/grafana/provisioning/datasources/datasources.yaml
+              name: config
+              subPath: datasources.yaml
+            - mountPath: /tmp/dashboards
+              name: sc-dashboard-volume
+            - mountPath: /etc/grafana/provisioning/dashboards/sc-dashboardproviders.yaml
+              name: sc-dashboard-provider
+              subPath: provider.yaml
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: sc-datasources-volume
+            - mountPath: /etc/tls/private
+              name: secret-grafana-tls
+              readOnly: null
+              subPath: null
+      enableServiceLinks: true
+      securityContext:
+        fsGroup: 472
+        runAsGroup: 472
+        runAsNonRoot: true
+        runAsUser: 472
+      serviceAccountName: grafana-helm
+      shareProcessNamespace: false
+      volumes:
+        - configMap:
+            name: grafana-helm
+          name: config
+        - name: storage
+          persistentVolumeClaim:
+            claimName: grafana-helm
+        - emptyDir: {}
+          name: search
+        - emptyDir: {}
+          name: sc-dashboard-volume
+        - configMap:
+            name: grafana-helm-config-dashboards
+          name: sc-dashboard-provider
+        - emptyDir: {}
+          name: sc-datasources-volume
+        - name: secret-grafana-tls
+          secret:
+            defaultMode: null
+            secretName: grafana-tls

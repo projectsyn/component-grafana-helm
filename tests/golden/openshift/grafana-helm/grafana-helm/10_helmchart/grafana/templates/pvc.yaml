@@ -1,8 +1,8 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  annotations:
-    syn.tools/source: https://github.com/projectsyn/component-grafana-helm.git
+  finalizers:
+    - kubernetes.io/pvc-protection
   labels:
     app.kubernetes.io/component: grafana-helm
     app.kubernetes.io/instance: grafana-helm
@@ -13,4 +13,9 @@ metadata:
     helm.sh/chart: grafana-11.2.3
   name: grafana-helm
   namespace: syn-grafana
-rules: []
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

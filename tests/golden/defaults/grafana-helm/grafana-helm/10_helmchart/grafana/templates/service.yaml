@@ -2,8 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
+    app.kubernetes.io/component: grafana-helm
     app.kubernetes.io/instance: grafana-helm
+    app.kubernetes.io/managed-by: commodore
     app.kubernetes.io/name: grafana
+    app.kubernetes.io/part-of: syn
     app.kubernetes.io/version: 12.4.0
     helm.sh/chart: grafana-11.2.3
   name: grafana-helm
