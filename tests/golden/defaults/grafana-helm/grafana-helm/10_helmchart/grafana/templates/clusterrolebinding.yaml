@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: commodore
     app.kubernetes.io/name: grafana
     app.kubernetes.io/part-of: syn
-    app.kubernetes.io/version: 12.4.1
+    app.kubernetes.io/version: 12.4.2
     helm.sh/chart: grafana-11.3.4
   name: grafana-helm-clusterrolebinding
 roleRef:
