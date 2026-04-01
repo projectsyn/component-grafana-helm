@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/part-of: syn
     app.kubernetes.io/version: 12.4.2
-    helm.sh/chart: grafana-11.3.5
+    helm.sh/chart: grafana-11.3.6
   name: grafana-helm
   namespace: syn-grafana
 spec:
@@ -35,7 +35,7 @@ spec:
         app.kubernetes.io/name: grafana
         app.kubernetes.io/part-of: syn
         app.kubernetes.io/version: 12.4.2
-        helm.sh/chart: grafana-11.3.5
+        helm.sh/chart: grafana-11.3.6
     spec:
       automountServiceAccountToken: true
       containers:
