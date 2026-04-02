@@ -14,7 +14,7 @@ parameters:
     charts:
       grafana:
         source: https://grafana-community.github.io/helm-charts
-        version: 11.3.6
+        version: 11.3.7
 
     images:
       grafana:
