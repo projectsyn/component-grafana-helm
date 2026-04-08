@@ -24,7 +24,7 @@ parameters:
       sidecar:
         registry: quay.io
         repository: kiwigrid/k8s-sidecar
-        tag: 2.5.5
+        tag: 2.6.0
 
     dashboards: {}
     datasources: {}
