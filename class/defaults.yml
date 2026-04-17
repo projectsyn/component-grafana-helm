@@ -14,13 +14,13 @@ parameters:
     charts:
       grafana:
         source: https://grafana-community.github.io/helm-charts
-        version: 11.3.8
+        version: 12.1.1
 
     images:
       grafana:
         registry: docker.io
         repository: grafana/grafana
-        tag: 12.4.3
+        tag: 13.0.1
       sidecar:
         registry: quay.io
         repository: kiwigrid/k8s-sidecar
