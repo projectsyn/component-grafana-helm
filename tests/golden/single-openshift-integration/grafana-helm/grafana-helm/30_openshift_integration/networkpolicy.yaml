@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  annotations:
+    syn.tools/source: https://github.com/projectsyn/component-grafana-helm.git
+  labels:
+    app.kubernetes.io/component: grafana-helm
+    app.kubernetes.io/instance: grafana-helm
+    app.kubernetes.io/managed-by: commodore
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/part-of: syn
+  name: allow-from-syn-grafana
+  namespace: openshift-logging
+spec:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: syn-grafana
+  podSelector: {}
+  policyTypes:
+    - Ingress

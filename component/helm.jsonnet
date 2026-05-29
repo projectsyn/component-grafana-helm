@@ -145,58 +145,61 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
   [if utils.hasOpenshiftDatasources then 'datasources']: {
     'datasources.yaml': {
       apiVersion: 1,
-      datasources: [
-        if params.openshiftIntegration.metrics.enabled then {
-          name: params.openshiftIntegration.metrics.name,
-          type: 'prometheus',
-          url: 'https://thanos-querier.openshift-monitoring.svc.cluster.local:9091',
-          access: 'proxy',
-          isDefault: true,
-          editable: false,
-          jsonData: {
-            httpHeaderName1: 'Authorization',
-            tlsAuthWithCACert: true,
+      datasources: std.filter(
+        function(x) x != null,
+        [
+          if params.openshiftIntegration.metrics.enabled then {
+            name: params.openshiftIntegration.metrics.name,
+            type: 'prometheus',
+            url: 'https://thanos-querier.openshift-monitoring.svc.cluster.local:9091',
+            access: 'proxy',
+            isDefault: true,
+            editable: false,
+            jsonData: {
+              httpHeaderName1: 'Authorization',
+              tlsAuthWithCACert: true,
+            },
+            secureJsonData: {
+              // kubectl --as cluster-admin -n {GRAFANA_NAMESPACE} get secret {GRAFANA_SA_NAME}-token -ojsonpath='{.data.token}' | base64 -d
+              httpHeaderValue1: 'Bearer $SA_BEARER_TOKEN',
+              tlsCACert: '$SA_SERVICE_CERT',
+            },
           },
-          secureJsonData: {
-            // kubectl --as cluster-admin -n {GRAFANA_NAMESPACE} get secret {GRAFANA_SA_NAME}-token -ojsonpath='{.data.token}' | base64 -d
-            httpHeaderValue1: 'Bearer $SA_BEARER_TOKEN',
-            tlsCACert: '$SA_SERVICE_CERT',
+          if utils.hasOpenshiftLogging && params.openshiftIntegration.logsApps.enabled then {
+            name: params.openshiftIntegration.logsApps.name,
+            type: 'loki',
+            url: 'https://loki-openshift-logging.%s/api/logs/v1/application/' % inv.parameters.openshift.appsDomain,
+            access: 'proxy',
+            editable: false,
+            jsonData: {
+              oauthPassThru: true,
+              timeout: '600s',
+            },
           },
-        },
-        if utils.hasOpenshiftLogging && params.openshiftIntegration.logsApps.enabled then {
-          name: params.openshiftIntegration.logsApps.name,
-          type: 'loki',
-          url: 'https://loki-openshift-logging.%s/api/logs/v1/application/' % inv.parameters.openshift.appsDomain,
-          access: 'proxy',
-          editable: false,
-          jsonData: {
-            oauthPassThru: true,
-            timeout: '600s',
+          if utils.hasOpenshiftLogging && params.openshiftIntegration.logsInfra.enabled then {
+            name: params.openshiftIntegration.logsInfra.name,
+            type: 'loki',
+            url: 'https://loki-openshift-logging.%s/api/logs/v1/infrastructure/' % inv.parameters.openshift.appsDomain,
+            access: 'proxy',
+            editable: false,
+            jsonData: {
+              oauthPassThru: true,
+              timeout: '600s',
+            },
           },
-        },
-        if utils.hasOpenshiftLogging && params.openshiftIntegration.logsInfra.enabled then {
-          name: params.openshiftIntegration.logsInfra.name,
-          type: 'loki',
-          url: 'https://loki-openshift-logging.%s/api/logs/v1/infrastructure/' % inv.parameters.openshift.appsDomain,
-          access: 'proxy',
-          editable: false,
-          jsonData: {
-            oauthPassThru: true,
-            timeout: '600s',
+          if utils.hasOpenshiftLogging && params.openshiftIntegration.logsAudit.enabled then {
+            name: params.openshiftIntegration.logsAudit.name,
+            type: 'loki',
+            url: 'https://loki-openshift-logging.%s/api/logs/v1/audit/' % inv.parameters.openshift.appsDomain,
+            access: 'proxy',
+            editable: false,
+            jsonData: {
+              oauthPassThru: true,
+              timeout: '600s',
+            },
           },
-        },
-        if utils.hasOpenshiftLogging && params.openshiftIntegration.logsAudit.enabled then {
-          name: params.openshiftIntegration.logsAudit.name,
-          type: 'loki',
-          url: 'https://loki-openshift-logging.%s/api/logs/v1/audit/' % inv.parameters.openshift.appsDomain,
-          access: 'proxy',
-          editable: false,
-          jsonData: {
-            oauthPassThru: true,
-            timeout: '600s',
-          },
-        },
-      ],
+        ]
+      ),
     },
   },
 } else {};
