@@ -145,8 +145,9 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
   [if utils.hasOpenshiftDatasources then 'datasources']: {
     'datasources.yaml': {
       apiVersion: 1,
-      datasources: [
-        if params.openshiftIntegration.metrics.enabled then {
+      datasources: std.filter(
+        function(x) x != null,
+        [ if params.openshiftIntegration.metrics.enabled then {
           name: params.openshiftIntegration.metrics.name,
           type: 'prometheus',
           url: 'https://thanos-querier.openshift-monitoring.svc.cluster.local:9091',
@@ -196,7 +197,7 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
             timeout: '600s',
           },
         },
-      ],
+      ]),
     },
   },
 } else {};

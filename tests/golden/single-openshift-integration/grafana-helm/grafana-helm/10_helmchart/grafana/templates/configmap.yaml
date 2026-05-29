@@ -15,9 +15,6 @@ data:
         tlsCACert: $SA_SERVICE_CERT
       type: prometheus
       url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
-    - null
-    - null
-    - null
   grafana.ini: |
     [analytics]
     check_for_updates = false
