@@ -1,0 +1,17 @@
+parameters:
+  grafana_helm:
+
+    secrets:
+      grafana-admin-user:
+        stringData:
+          admin-user: admin
+          admin-password: password
+
+    helm_values:
+      admin:
+        existingSecret: grafana-admin-user
+
+    prometheusRule:
+      groups:
+        grafana-helm:
+          GrafanaDatasourceErrors: null

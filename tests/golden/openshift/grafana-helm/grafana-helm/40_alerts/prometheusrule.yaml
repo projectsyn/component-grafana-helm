@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  annotations:
+    syn.tools/source: https://github.com/projectsyn/component-grafana-helm.git
+  labels:
+    app.kubernetes.io/component: grafana-helm
+    app.kubernetes.io/instance: grafana-helm
+    app.kubernetes.io/managed-by: commodore
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/part-of: syn
+  name: grafana-helm
+  namespace: syn-grafana
+spec:
+  groups:
+    - name: grafana-helm
+      rules:
+        - alert: GrafanaDatasourceErrors
+          annotations:
+            description: Datasource {{ $labels.datasource }} ({{ $labels.datasource_type
+              }}) has been returning 5xx errors for 30 minutes.
+            summary: Grafana datasource {{ $labels.datasource }} is returning errors
+          expr: sum by (datasource, datasource_type, code) (rate(grafana_datasource_request_total{code!="200"}[5m]))
+            > 0
+          for: 30m
+          labels:
+            severity: warning
+            syn: 'true'

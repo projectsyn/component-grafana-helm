@@ -17,7 +17,9 @@ spec:
     - honorLabels: true
       path: /metrics
       port: service
-      scheme: http
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
   jobLabel: grafana-helm
   namespaceSelector:
     matchNames:

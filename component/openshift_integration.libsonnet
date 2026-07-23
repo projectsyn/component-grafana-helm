@@ -116,6 +116,51 @@ local route = {
   },
 };
 
+local metricsRouteService = {
+  apiVersion: 'v1',
+  kind: 'Service',
+  metadata: utils.metadata {
+    name: '%(name)s-metrics-blackhole' % utils.metadata,
+  },
+  spec: {
+    ports: [ {
+      name: 'metrics',
+      port: 3000,
+      protocol: 'TCP',
+      targetPort: 'metrics',
+    } ],
+    selector: {
+      'app.kubernetes.io/metrics-blackhole': 'true',
+    },
+    type: 'ClusterIP',
+  },
+};
+
+local metricsRoute = {
+  apiVersion: 'route.openshift.io/v1',
+  kind: 'Route',
+  metadata: utils.metadata {
+    name: '%(name)s-metrics' % utils.metadata,
+  },
+  spec: {
+    host: 'grafana.%s' % inv.parameters.openshift.appsDomain,
+    path: '/metrics',
+    port: {
+      targetPort: 'metrics',
+    },
+    tls: {
+      insecureEdgeTerminationPolicy: 'Redirect',
+      termination: 'edge',
+    },
+    to: {
+      kind: 'Service',
+      name: '%(name)s-metrics-blackhole' % utils.metadata,
+      weight: 100,
+    },
+    wildcardPolicy: 'None',
+  },
+};
+
 local networkPolicy = {
   apiVersion: 'networking.k8s.io/v1',
   kind: 'NetworkPolicy',
@@ -155,6 +200,7 @@ if utils.isOpenshift && utils.openshiftIntegration then {
   '30_openshift_integration/clusterrolebinding': clusterRoleBindings,
   [if utils.hasOpenshiftLogging then '30_openshift_integration/networkpolicy']: networkPolicy,
   '30_openshift_integration/route': route,
+  [if params.metricsRoute.enabled then '30_openshift_integration/metrics-route']: [ metricsRouteService, metricsRoute ],
   '30_openshift_integration/secret': secret,
   '30_openshift_integration/service': service,
   '30_openshift_integration/serviceaccount': [ serviceAccount, serviceAccountToken ],

@@ -2,6 +2,7 @@ local kap = import 'lib/kapitan.libjsonnet';
 local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 local com = import 'lib/commodore.libjsonnet';
+local utils = import 'utils.libsonnet';
 
 local params = inv.parameters.grafana_helm;
 
@@ -14,10 +15,14 @@ local secrets = com.generateResources(
   }
 );
 
+local clusterMonitoring = if utils.isOpenshift then {
+  'openshift.io/cluster-monitoring': 'true',
+} else {};
+
 {
   [if params.createNamespace then '00_namespace']: kube.Namespace(params.namespace) {
     metadata+: {
-      labels+: params.namespaceLabels,
+      labels+: params.namespaceLabels + clusterMonitoring,
       annotations+: params.namespaceAnnotations,
     },
   },
@@ -27,3 +32,4 @@ local secrets = com.generateResources(
 + (import 'extra_datasources.libsonnet')
 + (import 'extra_configmap.libsonnet')
 + (import 'openshift_integration.libsonnet')
++ (import 'alerts.libsonnet')
