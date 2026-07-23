@@ -19,3 +19,7 @@ parameters:
     helm_values:
       admin:
         existingSecret: grafana-admin-user
+
+    rules:
+      grafana-helm:
+        alert:GrafanaDatasourceErrors: null

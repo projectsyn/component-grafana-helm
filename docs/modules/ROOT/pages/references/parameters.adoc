@@ -28,6 +28,7 @@ type:: object
 default:: `{}`
 
 Additional labels to add to the namespace specified in `namespace`.
+The component sets the `openshift.io/cluster-monitoring: "true"` label on the namespace.
 
 
 == `namespaceAnnotations`
@@ -212,6 +213,21 @@ openshiftIntegration:
 
 Integrate OpenShift Audit logs.
 
+=== `openshiftIntegration.metricsRoute`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+openshiftIntegration:
+  metricsRoute:
+    enabled: true
+----
+
+Renders a second OpenShift `Route` on path `/metrics` on the same host which ensures that the /metrics endpoint is not exposed.
+
 
 == `helm_values`
 
@@ -233,6 +249,43 @@ helm_values:
 ----
 
 Values passed to Helm.
+
+NOTE: The component enables Grafana's `/metrics` endpoint (`grafana.ini.metrics.enabled: true`) by default and renders the chart's `ServiceMonitor`, so Grafana's built-in Prometheus metrics are scraped out of the box.
+On OpenShift, the `ServiceMonitor` is configured to scrape over HTTPS (`scheme: https`, `tlsConfig.insecureSkipVerify: true`) to match the HTTPS-serving Grafana instance.
+
+
+== `rules`
+
+[horizontal]
+type:: object
+default::
++
+[source,yaml]
+----
+rules:
+  grafana-helm:
+    alert:GrafanaDatasourceErrors:
+      expr: 'sum by (datasource, datasource_type, code) (rate(grafana_datasource_request_total{code!="200"}[5m])) > 0'
+      for: 30m
+      labels:
+        severity: warning
+      annotations:
+        summary: 'Grafana datasource {{ $labels.datasource }} is returning errors'
+        description: 'Datasource {{ $labels.datasource }} ({{ $labels.datasource_type }}) has been returning errors for 30 minutes.'
+----
+
+The component renders a `PrometheusRule` (`40_alerts/prometheusrule.yaml`) from this parameter.
+
+=== Default alert: `GrafanaDatasourceErrors`
+
+[horizontal]
+name:: `GrafanaDatasourceErrors`
+expression:: `sum by (datasource, datasource_type) (rate(grafana_datasource_request_total{code!="200"}[5m])) > 0`
+for:: `30m`
+severity:: `warning`
+
+Fires when a Grafana datasource keeps returning errors for 30 minutes.
+It relies on Grafana's built-in `grafana_datasource_request_total` counter, which is exposed on the `/metrics` endpoint (enabled by default) and scraped by the `ServiceMonitor`.
 
 
 == Example
