@@ -156,6 +156,8 @@ openshiftIntegration:
 <1> Enable this datasource.
 <2> Name of the datasource.
 
+WARNING: The openshiftIntegration overwrites the data sources in `helm_values.datasources`. Use the top level <<_datasources>> if you want to add datasources additionally to the openshift integration.
+
 Integrating OpenShift metrics.
 
 === `openshiftIntegration.logsApps`
@@ -176,6 +178,8 @@ openshiftIntegration:
 
 Inegrate OpenShift Application logs.
 
+WARNING: The openshiftIntegration overwrites the data sources in `helm_values.datasources`. Use the top level <<_datasources>> if you want to add datasources additionally to the openshift integration.
+
 === `openshiftIntegration.logsInfra`
 
 [horizontal]
@@ -193,6 +197,8 @@ openshiftIntegration:
 <2> Name of the datasource.
 
 Integrate OpenShift Infrastructure logs.
+
+WARNING: The openshiftIntegration overwrites the data sources in `helm_values.datasources`. Use the top level <<_datasources>> if you want to add datasources additionally to the openshift integration.
 
 === `openshiftIntegration.logsAudit`
 
@@ -212,6 +218,7 @@ openshiftIntegration:
 
 Integrate OpenShift Audit logs.
 
+WARNING: The openshiftIntegration overwrites the data sources in `helm_values.datasources`. Use the top level <<_datasources>> if you want to add datasources additionally to the openshift integration.
 
 == `helm_values`
 
