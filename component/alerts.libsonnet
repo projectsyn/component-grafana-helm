@@ -6,7 +6,7 @@ local params = inv.parameters.grafana_helm;
 local utils = import 'utils.libsonnet';
 
 local rules = params.rules;
-local defaultLabels = prometheusRule.labels;
+local defaultLabels = rules.labels;
 
 local buildRule(alertName, rule) = rule {
   alert: alertName,
@@ -14,7 +14,7 @@ local buildRule(alertName, rule) = rule {
 };
 
 local renderGroup(groupName) =
-  local group = prometheusRule.groups[groupName];
+  local group = rules.groups[groupName];
   local rules = if group != null then [
     buildRule(alertName, group[alertName])
     for alertName in std.objectFields(group)
@@ -27,7 +27,7 @@ local renderGroup(groupName) =
 
 local groups = [
   renderGroup(groupName)
-  for groupName in std.objectFields(prometheusRule.groups)
+  for groupName in std.objectFields(rules.groups)
   if renderGroup(groupName) != null
 ];
 
