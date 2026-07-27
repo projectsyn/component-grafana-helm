@@ -1,10 +1,11 @@
 local kap = import 'lib/kapitan.libjsonnet';
+local prom = import 'lib/prom.libsonnet';
 local inv = kap.inventory();
 
 local params = inv.parameters.grafana_helm;
 local utils = import 'utils.libsonnet';
 
-local prometheusRule = params.prometheusRule;
+local rules = params.rules;
 local defaultLabels = prometheusRule.labels;
 
 local buildRule(alertName, rule) = rule {
@@ -30,6 +31,13 @@ local groups = [
   if renderGroup(groupName) != null
 ];
 
+local additionalRules = prom.generateRules(utils.metadata.name, params.rules) {
+  metadata: {
+    name: utils.metadata.name,
+    namespace: params.namespace
+  },
+};
+
 if std.length(groups) > 0 then {
   '40_alerts/prometheusrule': {
     apiVersion: 'monitoring.coreos.com/v1',
@@ -37,4 +45,5 @@ if std.length(groups) > 0 then {
     metadata: utils.metadata,
     spec: { groups: groups },
   },
+  'other': additionalRules
 } else {}
