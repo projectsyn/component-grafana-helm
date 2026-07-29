@@ -74,6 +74,8 @@ data:
     [log]
     level = warn
     mode = console
+    [metrics]
+    enabled = true
     [paths]
     data = /var/lib/grafana/
     logs = /var/log/grafana

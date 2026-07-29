@@ -21,6 +21,11 @@ local common = {
       tag: params.images.sidecar.tag,
     },
   },
+  'grafana.ini': {
+    metrics: {
+      enabled: true,
+    },
+  },
 };
 
 local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
@@ -112,6 +117,12 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
   },
   service: {
     enabled: false,
+  },
+  serviceMonitor: {
+    scheme: 'https',
+    tlsConfig: {
+      insecureSkipVerify: true,
+    },
   },
   envValueFrom: {
     // The referenced secret is from the long-lived service account token.

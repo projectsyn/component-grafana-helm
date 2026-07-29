@@ -1,13 +1,13 @@
 {
   "template": "https://github.com/projectsyn/commodore-component-template.git",
-  "commit": "fa60b771b1f456194b0249c80061c7eb5980850e",
+  "commit": "0beeff331c57a671ca982cd2e9bb84d429031d32",
   "checkout": "main",
   "context": {
     "cookiecutter": {
       "name": "grafana-helm",
       "slug": "grafana-helm",
       "parameter_key": "grafana_helm",
-      "test_cases": "defaults openshift single-openshift-integration",
+      "test_cases": "defaults openshift single-openshift-integration disable-alert",
       "add_lib": "n",
       "add_pp": "n",
       "add_golden": "y",
@@ -25,7 +25,7 @@
       "github_name": "component-grafana-helm",
       "github_url": "https://github.com/projectsyn/component-grafana-helm",
       "_template": "https://github.com/projectsyn/commodore-component-template.git",
-      "_commit": "fa60b771b1f456194b0249c80061c7eb5980850e"
+      "_commit": "0beeff331c57a671ca982cd2e9bb84d429031d32"
     }
   },
   "directory": null

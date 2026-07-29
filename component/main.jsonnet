@@ -17,7 +17,9 @@ local secrets = com.generateResources(
 {
   [if params.createNamespace then '00_namespace']: kube.Namespace(params.namespace) {
     metadata+: {
-      labels+: params.namespaceLabels,
+      labels+: params.namespaceLabels {
+        'openshift.io/cluster-monitoring': 'true',
+      },
       annotations+: params.namespaceAnnotations,
     },
   },
@@ -27,3 +29,4 @@ local secrets = com.generateResources(
 + (import 'extra_datasources.libsonnet')
 + (import 'extra_configmap.libsonnet')
 + (import 'openshift_integration.libsonnet')
++ (import 'alerts.libsonnet')
