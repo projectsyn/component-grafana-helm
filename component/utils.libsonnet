@@ -8,6 +8,16 @@ local isOpenshift = std.member([ 'openshift4', 'oke' ], inv.parameters.facts.dis
 local openshiftIntegration = params.openshiftIntegration.enabled;
 local hasOpenshiftLogging = std.member(inv.applications, 'openshift4-logging');
 local hasOpenshiftDatasources = params.openshiftIntegration.metrics.enabled || params.openshiftIntegration.logsApps.enabled || params.openshiftIntegration.logsInfra.enabled || params.openshiftIntegration.logsAudit.enabled;
+local openshiftAppsDomain =
+  if
+    params.openshiftIntegration.appsDomain == null ||
+    params.openshiftIntegration.appsDomain == ''
+  then
+    error
+      'Component parameter `openshiftIntegration.appsDomain` must be ' +
+      "set to the cluster's default apps domain on OpenShift."
+  else
+    params.openshiftIntegration.appsDomain;
 
 local metadata = {
   annotations: {
@@ -29,5 +39,6 @@ local metadata = {
   openshiftIntegration: openshiftIntegration,
   hasOpenshiftLogging: hasOpenshiftLogging,
   hasOpenshiftDatasources: hasOpenshiftDatasources,
+  openshiftAppsDomain: openshiftAppsDomain,
   metadata: metadata,
 }

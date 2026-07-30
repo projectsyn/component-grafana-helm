@@ -14,12 +14,9 @@ parameters:
   facts:
     distribution: openshift4
 
-  openshift:
-    appsDomain: apps.example.com
-    baseDomain: example.com
-
   grafana_helm:
     openshiftIntegration:
+      appsDomain: apps.example.com
       enabled: true
       ingress:
         urlPrefix: my-grafana

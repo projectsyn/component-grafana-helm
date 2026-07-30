@@ -12,7 +12,7 @@ metadata:
   name: grafana-helm
   namespace: syn-grafana
 spec:
-  host: grafana.apps.example.com
+  host: my-grafana.apps.example.com
   path: /
   port:
     targetPort: service

@@ -98,7 +98,9 @@ local route = {
   kind: 'Route',
   metadata: utils.metadata,
   spec: {
-    host: 'grafana.%s' % inv.parameters.openshift.appsDomain,
+    host: '%(urlPrefix)s.%(appsDomain)s' % params.openshiftIntegration.ingress {
+      appsDomain: utils.openshiftAppsDomain,
+    },
     path: '/',
     port: {
       targetPort: 'service',
@@ -143,7 +145,9 @@ local metricsRoute = {
     name: '%(name)s-metrics' % utils.metadata,
   },
   spec: {
-    host: 'grafana.%s' % inv.parameters.openshift.appsDomain,
+    host: '%(urlPrefix)s.%(appsDomain)s' % params.openshiftIntegration.ingress {
+      appsDomain: utils.openshiftAppsDomain,
+    },
     path: '/metrics',
     port: {
       targetPort: 'metrics',

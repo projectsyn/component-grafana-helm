@@ -65,8 +65,8 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
       client_secret: '${OAUTH_CLIENT_SECRET}',
       scopes: params.openshiftIntegration.auth.scopes,
       empty_scopes: false,
-      auth_url: 'https://oauth-openshift.%s/oauth/authorize' % inv.parameters.openshift.appsDomain,
-      token_url: 'https://oauth-openshift.%s/oauth/token' % inv.parameters.openshift.appsDomain,
+      auth_url: 'https://oauth-openshift.%s/oauth/authorize' % utils.openshiftAppsDomain,
+      token_url: 'https://oauth-openshift.%s/oauth/token' % utils.openshiftAppsDomain,
       api_url: 'https://kubernetes.default.svc/apis/user.openshift.io/v1/users/~',
       email_attribute_path: 'metadata.name',
       auto_login: true,
@@ -86,7 +86,7 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
       protocol: 'https',
       cert_file: '/etc/tls/private/tls.crt',
       cert_key: '/etc/tls/private/tls.key',
-      root_url: 'https://grafana.%s' % inv.parameters.openshift.appsDomain,
+      root_url: 'https://grafana.%s' % utils.openshiftAppsDomain,
     },
     users: {
       auto_assign_org: 1,
@@ -179,7 +179,7 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
           if utils.hasOpenshiftLogging && params.openshiftIntegration.logsApps.enabled then {
             name: params.openshiftIntegration.logsApps.name,
             type: 'loki',
-            url: 'https://loki-openshift-logging.%s/api/logs/v1/application/' % inv.parameters.openshift.appsDomain,
+            url: 'https://loki-openshift-logging.%s/api/logs/v1/application/' % utils.openshiftAppsDomain,
             access: 'proxy',
             editable: false,
             jsonData: {
@@ -190,7 +190,7 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
           if utils.hasOpenshiftLogging && params.openshiftIntegration.logsInfra.enabled then {
             name: params.openshiftIntegration.logsInfra.name,
             type: 'loki',
-            url: 'https://loki-openshift-logging.%s/api/logs/v1/infrastructure/' % inv.parameters.openshift.appsDomain,
+            url: 'https://loki-openshift-logging.%s/api/logs/v1/infrastructure/' % utils.openshiftAppsDomain,
             access: 'proxy',
             editable: false,
             jsonData: {
@@ -201,7 +201,7 @@ local openshift = if utils.isOpenshift && utils.openshiftIntegration then {
           if utils.hasOpenshiftLogging && params.openshiftIntegration.logsAudit.enabled then {
             name: params.openshiftIntegration.logsAudit.name,
             type: 'loki',
-            url: 'https://loki-openshift-logging.%s/api/logs/v1/audit/' % inv.parameters.openshift.appsDomain,
+            url: 'https://loki-openshift-logging.%s/api/logs/v1/audit/' % utils.openshiftAppsDomain,
             access: 'proxy',
             editable: false,
             jsonData: {

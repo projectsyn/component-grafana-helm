@@ -110,6 +110,22 @@ Enables configuration for OpenShift integration.
 Enabling OpenShift integration will configure various Helm values and create the neccessary resources for Grafana to authenticate agains OpenShift and have datasources for the OpenShift observation stack.
 ====
 
+=== `openshiftIntegration.appsDomain`
+
+[horizontal]
+type:: string
+default:: `''`
+
+This parameter must be set to the OpenShift cluster's default apps domain.
+When the parameter is empty or null, the component raises a compilation error.
+
+[NOTE]
+====
+We recommend that you track the OpenShift apps default apps domain in a central Project Syn parameter and use a Reclass reference to set this parameter.
+
+For example, VSHN uses inventory parameter `openshift.appsDomain` to track the default apps domain centrally, so we're setting this parameter to `${openshift:appsDomain}` in our global defaults.
+====
+
 === `openshiftIntegration.auth`
 
 [horizontal]
@@ -139,7 +155,8 @@ openshiftIntegration:
     urlPrefix: ${_instance}
 ----
 
-The URL the Grafana instance will be published under has the form `<urlPrefix>.apps.<clusterDomain>`.
+The URL the Grafana instance will be published under has the form `<urlPrefix>.<appsDomain>`.
+See component parameter `openshiftIntegration.appsDomain` for details on the URL suffix.
 
 === `openshiftIntegration.metrics`
 
