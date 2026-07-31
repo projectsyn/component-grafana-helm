@@ -32,6 +32,7 @@ parameters:
 
     openshiftIntegration:
       enabled: false
+      appsDomain: ''
       auth:
         adminUser: 'admin'
         adminPassword: '?{vaultkv:${cluster:tenant}/${cluster:name}/${_instance}/admin_password}'

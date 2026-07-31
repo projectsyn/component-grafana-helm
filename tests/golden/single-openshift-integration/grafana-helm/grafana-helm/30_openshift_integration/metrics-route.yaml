@@ -35,7 +35,7 @@ metadata:
   name: grafana-helm-metrics
   namespace: syn-grafana
 spec:
-  host: grafana.apps.example.com
+  host: my-grafana.apps.example.com
   path: /metrics
   port:
     targetPort: metrics
