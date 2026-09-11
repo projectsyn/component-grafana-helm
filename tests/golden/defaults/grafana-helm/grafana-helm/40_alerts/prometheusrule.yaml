@@ -1,7 +1,9 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
+  annotations: {}
   labels:
+    monitoring.syn.tools/enabled: 'true'
     name: grafana-helm
   name: grafana-helm
 spec:
