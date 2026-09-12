@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/part-of: syn
     app.kubernetes.io/version: 13.0.4
-    helm.sh/chart: grafana-12.4.9
+    helm.sh/chart: grafana-13.2.4
   name: grafana-helm
   namespace: syn-grafana
 spec:
@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: a54413752f6dd965d4beb51daaf4e3b2a11bd2c6fcf01df575ae0d61cd167d97
+        checksum/config: 01a20997b1f5bef9812df5e95a523b107d4e5c6acff57abbb159d503d5b1cc92
         checksum/sc-dashboard-provider-config: e70bf6a851099d385178a76de9757bb0bef8299da6d8443602590e44f05fdf24
         kubectl.kubernetes.io/default-container: grafana
       labels:
@@ -35,7 +35,7 @@ spec:
         app.kubernetes.io/name: grafana
         app.kubernetes.io/part-of: syn
         app.kubernetes.io/version: 13.0.4
-        helm.sh/chart: grafana-12.4.9
+        helm.sh/chart: grafana-13.2.4
     spec:
       automountServiceAccountToken: true
       containers:
@@ -190,9 +190,12 @@ spec:
               drop:
                 - ALL
             privileged: false
+            readOnlyRootFilesystem: true
             seccompProfile:
               type: RuntimeDefault
           volumeMounts:
+            - mountPath: /tmp
+              name: tmp
             - mountPath: /etc/grafana/grafana.ini
               name: config
               subPath: grafana.ini
@@ -223,6 +226,8 @@ spec:
       serviceAccountName: grafana-helm
       shareProcessNamespace: false
       volumes:
+        - emptyDir: {}
+          name: tmp
         - configMap:
             name: grafana-helm
           name: config
