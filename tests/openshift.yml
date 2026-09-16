@@ -1,4 +1,5 @@
 applications:
+  - openshift4-monitoring
   - openshift4-logging
 
 parameters:
