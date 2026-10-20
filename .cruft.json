@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/projectsyn/commodore-component-template.git",
-  "commit": "0beeff331c57a671ca982cd2e9bb84d429031d32",
+  "commit": "e181d48cf389cc0db56825e47044d881c8e91e4d",
   "checkout": "main",
   "context": {
     "cookiecutter": {
@@ -25,7 +25,7 @@
       "github_name": "component-grafana-helm",
       "github_url": "https://github.com/projectsyn/component-grafana-helm",
       "_template": "https://github.com/projectsyn/commodore-component-template.git",
-      "_commit": "0beeff331c57a671ca982cd2e9bb84d429031d32"
+      "_commit": "e181d48cf389cc0db56825e47044d881c8e91e4d"
     }
   },
   "directory": null
